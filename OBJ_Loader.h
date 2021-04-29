@@ -86,6 +86,13 @@ namespace objl
 			Y = 0.0f;
 			Z = 0.0f;
 		}
+        // to hold faces indices for POV file
+        Vector3(int p, int n, int t)
+        {
+            X = p;
+            Y = n;
+            Z = t;
+        }
 		// Variable Set Constructor
 		Vector3(float X_, float Y_, float Z_)
 		{
@@ -144,6 +151,9 @@ namespace objl
 
 		// Texture Coordinate Vector
 		Vector2 TextureCoordinate;
+
+        // Face Vector
+        Vector3 Face;
 	};
 
 	struct Material
@@ -447,6 +457,9 @@ namespace objl
 			std::vector<Vector3> Positions;
 			std::vector<Vector2> TCoords;
 			std::vector<Vector3> Normals;
+            // will hold the face indices
+            //std::vector<Vector3()> Faces;
+            std::vector<Vector3> Faces;
 
 			std::vector<Vertex> Vertices;
 			std::vector<unsigned int> Indices;
@@ -581,6 +594,40 @@ namespace objl
 				// Generate a Face (vertices & indices)
 				if (algorithm::firstToken(curline) == "f")
 				{
+
+                    Vector3 vface;
+
+                    int integer;
+                    // make vector of faces
+                    std::vector<std::string> sface, svert;
+                    std::vector<std::int32_t> intVect;
+                    // split the face line in OBJ file based on space
+                    algorithm::split(algorithm::tail(curline), sface, " ");
+
+                    // For every given vertex do this, split into inndividual numbers
+                    for (int i = 0; i < int(sface.size()); i++)
+                    {
+
+                        algorithm::split(sface[i], svert, "/");
+
+                        for (int j = 0; j < int(svert.size()); j++)
+                        {
+                            integer = std::stoi(svert[j]);
+                            intVect.push_back(integer);
+                        }
+                    }
+
+//                        vface.X = intVect[0];
+//                        vface.Y = intVect[1];
+//                        vface.Z = intVect[2];
+
+                        Faces.push_back(Vector3(intVect[0], intVect[1], intVect[2]));
+                        Faces.push_back(Vector3(intVect[3], intVect[4], intVect[5]));
+                        Faces.push_back(Vector3(intVect[6], intVect[7], intVect[8]));
+
+
+
+
 					// Generate the vertices
 					std::vector<Vertex> vVerts;
 					GenVerticesFromRawOBJ(vVerts, Positions, TCoords, Normals, curline);

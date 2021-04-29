@@ -6,6 +6,7 @@
 
 class objImageLoader
 {
+
 public:
     objImageLoader();
     ~objImageLoader();
@@ -20,16 +21,20 @@ public:
        int normalZ;
        int textCoorX;
        int textCoorY;
+       int facePosition;
+       int faceNormal;
+       int faceTexture;
    };
 
    // will hold output of OBJ loader
    std::vector<imageElements>OBJContainer;
 
-   std::vector<std::string>objFileVec;
-   std::vector<std::string>*vecPtr;
+   std::vector<std::string>objFilePathVec;
+   //std::vector<std::string>*vecPtr;
 
    // will load obj file into OBJ container
    void loadMesh(std::vector<std::string>, bool, int);
+
 
 };
 

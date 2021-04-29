@@ -10,93 +10,92 @@ objImageLoader::~ objImageLoader()
 
 }
 
+
 void objImageLoader::loadMesh(std::vector<std::string> objFileVec, bool stopOBJLoading, int meshNum)
 {
 
     // hold name of obj file
-    std::string file_name;
+    std::string filePath;
     // Initialize Loader
     objl::Loader Loader;
-    //objl::Loader Loader2;
-    //will contain x,y,z position of each face
-    //OBJContainer meshData;
 
-    //this is a test to see if at least one thing will load
-    std::string test = "/Users/nancy/Documents/spring2021/CSCI_5565_introComputerGraphics/project/surfaceAnimationViewer__/Sphere_Animation/sphere_000.obj";
-
-    //the entire path shoudnt matter right?
-    //std::string test = "/Users/nancy/Documents/spring2021/CSCI_5565_introComputerGraphics/project/surfaceAnimationViewer__/Sphere_Animation/box_stack.e.obj";
-    objFileVec.push_back(test);
-
-    for (meshNum; meshNum < objFileVec.size(); meshNum++)
-    {
-        // stop drawing meshes
-//        if (stopOBJLoading == true)
-//        { break;}
-//        else
-//        {
-           file_name = objFileVec[meshNum];
-           //file_name =  "sphere_000.obj";
-//        }
-    }
 
 
     // struct of obj image
     imageElements image;
 
-    // Load .obj File
-    bool loadout = Loader.LoadFile(file_name);
-    //bool loadout = Loader.LoadFile(filePath);
-std::cout << loadout << std::endl;
-    // Check to see if it loaded
-
-    //Loader.LoadedMeshes.push_back(Loader2.LoadFile());
-
-    // If so continue and display
-
-   /* if (loadout)
+    if (meshNum > objFileVec.size())
     {
+        std:: cout << "global counter exceeds the number of obj files" << std::endl;
+    }
 
-        // Go through each loaded mesh and out its contents
-        for (int i = 0; i < Loader.LoadedMeshes.size(); i++)
+
+        for (meshNum; meshNum < objFileVec.size(); meshNum++)
         {
 
-            // Copy one of the loaded meshes to be our current mesh
-            objl::Mesh curMesh = Loader.LoadedMeshes[meshNum];
+            if (stopOBJLoading == true)
+                break;
+
+            // choose first file
+            filePath = objFileVec[meshNum];
+
+            // Load .obj File
+            bool loadout = Loader.LoadFile(filePath);
+
+            // Check to see if it loaded
+
+            // If so continue and display
 
 
-            // Go through each vertex and print its number,
-            //  position, normal, and texture coordinate
-            for (int j = 0; j < curMesh.Vertices.size(); j++)
+            if (loadout)
             {
-                // object holds x,y,z position of each face
-                image.X = curMesh.Vertices[j].Position.X;
-                image.Y = curMesh.Vertices[j].Position.Y;
-                image.Z = curMesh.Vertices[j].Position.Z;
-                // object holds normals
-                image.normalX = curMesh.Vertices[j].Normal.X;
-                image.normalY = curMesh.Vertices[j].Normal.Y;
-                image.normalZ = curMesh.Vertices[j].Normal.Z;
-                // object holds texture coordinates
-                image.textCoorX = curMesh.Vertices[j].TextureCoordinate.X;
-                image.textCoorY = curMesh.Vertices[j].TextureCoordinate.Y;
-                OBJContainer.push_back(image);
+
+                // Go through each loaded mesh and out its contents
+                for (int i = 0; i < Loader.LoadedMeshes.size(); i++)
+                {
+
+                    // Copy one of the loaded meshes to be our current mesh
+                    objl::Mesh curMesh = Loader.LoadedMeshes[0];
+
+
+                    // Go through each vertex and print its number,
+                    //  position, normal, and texture coordinate
+                    for (int j = 0; j < curMesh.Vertices.size(); j++)
+                    {
+                        // object holds x,y,z position of each face
+                        image.X = curMesh.Vertices[j].Position.X;
+                        image.Y = curMesh.Vertices[j].Position.Y;
+                        image.Z = curMesh.Vertices[j].Position.Z;
+                        // object holds normals
+                        image.normalX = curMesh.Vertices[j].Normal.X;
+                        image.normalY = curMesh.Vertices[j].Normal.Y;
+                        image.normalZ = curMesh.Vertices[j].Normal.Z;
+                        // object holds texture coordinates
+                        image.textCoorX = curMesh.Vertices[j].TextureCoordinate.X;
+                        image.textCoorY = curMesh.Vertices[j].TextureCoordinate.Y;
+
+                        image.facePosition = curMesh.Vertices[j].Face.X;
+                        image.faceNormal = curMesh.Vertices[j].Face.Y;
+                        image.faceTexture = curMesh.Vertices[j].Face.Z;
+                        OBJContainer.push_back(image);
+
+                    }
+
+
+                }
+
+            }
+            // If not output an error
+            else
+            {
+
+                // Output Error
+                std::cout << "Failed to Load File. May have failed to find it or it was not an .obj file." << std::endl;
+
 
             }
 
-
         }
 
-    }
-    // If not output an error
-    else
-    {
 
-        // Output Error
-        std::cout << "Failed to Load File. May have failed to find it or it was not an .obj file." << std::endl;
-
-
-    }
-
-*/
 }
